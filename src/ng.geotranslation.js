@@ -109,9 +109,9 @@
              */
             serviceInterface.bearingFrom = function (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
                 var finalBearing = this.bearingTo(
-                    latitudeStart, longitudeStart,
-                    latitudeEnd, longitudeEnd
-                );
+                        latitudeStart, longitudeStart,
+                        latitudeEnd, longitudeEnd
+                    );
                 finalBearing += 180;
                 if (finalBearing > 360) {
                     finalBearing -= 360;
@@ -129,7 +129,8 @@
              * @unitSymbol km
              */
             serviceInterface.spherical = function (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
-                var l1 = this.toRad(latitudeStart),
+                var
+                    l1 = this.toRad(latitudeStart),
                     l2 = this.toRad(latitudeEnd),
                     l3 = this.toRad((longitudeEnd - longitudeStart)),
                     distance = Math.acos(
@@ -153,9 +154,10 @@
              * @unitSymbol km
              */
             serviceInterface.equirectangular = function (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
-                var x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2);
-                var y = (latitudeEnd - latitudeStart);
-                var distance = Math.sqrt(x * x + y * y) * RADIUS;
+                var
+                    x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2),
+                    y = (latitudeEnd - latitudeStart),
+                    distance = Math.sqrt(x * x + y * y) * RADIUS;
                 return distance;
             };
             /**
@@ -174,7 +176,8 @@
              * @unitSymbol km
              */
             serviceInterface.haversine = function (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
-                var distanceLatitude = this.toRad(latitudeEnd - latitudeStart),
+                var
+                    distanceLatitude = this.toRad(latitudeEnd - latitudeStart),
                     distanceLongitude = this.toRad(longitudeEnd - longitudeStart),
                     a, c, distance;
                 latitudeStart = this.toRad(latitudeStart);

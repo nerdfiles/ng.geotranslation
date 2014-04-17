@@ -18,9 +18,12 @@ distances between ``latLngStart`` and ``latLngEnd``.
     .controller([
         '$$geotranslate',
         function ($$geotranslate) {
-            var distance1 = $$geotranslate.equirectangular(L1, l1, L2, l2)
-            var distance2 = $$geotranslate.spherical(L1, l1, L2, l2)
-            var distance3 = $$geotranslate.haversine(L1, l1, L2, l2)
+            // Some json data with lat/lng.
+            var bearing1 = $$geotranslate.bearingFrom(L1, l1, L2, l2);
+            var bearing2 = $$geotranslate.bearingTo(L1, l1, L2, l2);
+            var distance1 = $$geotranslate.equirectangular(L1, l1, L2, l2);
+            var distance2 = $$geotranslate.spherical(L1, l1, L2, l2);
+            var distance3 = $$geotranslate.haversine(L1, l1, L2, l2);
         }
     ]);
 

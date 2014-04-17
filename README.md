@@ -1,4 +1,4 @@
-# angular.geotranslation
+# ng.geotranslation
 
 A client-side service presenting various methods for the calculation of 
 distances between ``latLngStart`` and ``latLngEnd``.

@@ -1,1 +1,0 @@
-/Users/dnb/Projects/HOLMobile/js/src/app/utils/angular.geotranslation.js

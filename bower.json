@@ -1,0 +1,22 @@
+{
+  "name": "angular.geotranslation",
+  "version": "0.0.1",
+  "authors": [
+    "hello@nerdfiles.net"
+  ],
+  "description": "Calculate distances on Earth through a service using trig functions.",
+  "keywords": [
+    "angular",
+    "geotranslation",
+    "haversine",
+    "maps"
+  ],
+  "license": "WTFPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

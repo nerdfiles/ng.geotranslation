@@ -1,9 +1,8 @@
 /**
- * @license angular.geotranslation.js
+ * @license ng.geotranslation.js
  * License: WTFPL
  */
 (function (window, angular, undefined) {
-
     'use strict';
 
     /**
@@ -47,18 +46,28 @@
         function (RADIUS, cachedDeg2Rad, cachedRad2Deg) {
             var serviceInterface = {};
             /**
+             * @util
+             *
+             * toRad
+             *
              * Convert to radians.
              */
             serviceInterface.toRad = function (angle) {
                 return angle * cachedDeg2Rad;
             };
             /**
+             * @util
+             *
+             * toDeg
+             *
              * Convert to degrees.
              */
             serviceInterface.toDeg = function (angle) {
                 return angle * cachedRad2Deg;
             };
             /**
+             * @util
+             *
              * bearingTo
              *
              * Compute the initial bearing when going from a point to another.
@@ -76,7 +85,8 @@
                 latitudeStart = this.toRad(latitudeStart);
                 latitudeEnd = this.toRad(latitudeEnd);
                 y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd);
-                x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) - Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude);
+                x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) -
+                    Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude);
                 initialBearing = this.toDeg(Math.atan2(y, x));
                 if (initialBearing < 0) {
                     initialBearing += 360;
@@ -84,6 +94,8 @@
                 return initialBearing;
             };
             /**
+             * @util
+             *
              * bearingFrom
              *
              * Compute the final bearing when going from a point to another.
@@ -107,7 +119,7 @@
                 return finalBearing;
             };
             /**
-             * Spherical
+             * spherical
              *
              * @param {float} latitudeStart
              * @param {float} longitudeStart
@@ -127,7 +139,9 @@
                 return distance;
             };
             /**
-             * Equirectangular Projection
+             * equirectangular
+             *
+             * Equirectangular Projection.
              *
              * @see http://www.movable-type.co.uk/scripts/latlong.html
              *
@@ -171,9 +185,11 @@
                 distance = RADIUS * c;
                 return distance;
             };
+            /**
+             * Return utilities of service.
+             */
             return serviceInterface;
         }
     ]);
-
 })(window, window.angular);
 

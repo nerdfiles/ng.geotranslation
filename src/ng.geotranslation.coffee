@@ -1,8 +1,7 @@
 # @license ng.geotranslation.js
 # License: WTFPL
-((window, angular, undefined) ->
+((window, angular) ->
     'use strict'
-
     # @ngdoc overview
     # @name ngGeotranslation
     # @description
@@ -150,4 +149,3 @@
             serviceInterface
         ]
 (window, window.angular))
-

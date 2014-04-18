@@ -5,7 +5,7 @@ distances between ``latLngStart`` and ``latLngEnd``.
 
 ## Get
 
-    $ bower install angular.geotranslation
+    $ bower install ng.geotranslation
 
 ## Install
 

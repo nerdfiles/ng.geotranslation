@@ -25,7 +25,8 @@
     # @name ngGeotranslation.$$geotranslate
     # @description
     #
-    # The `$$geotranslate` allows developers to calculate distance using haversine method.
+    # The `$$geotranslate` allows developers to calculate distance between two
+    # points on Earth.
     .service '$$geotranslate', [
         'ngGeotranslation.RADIUS'
         'ngGeotranslation.cachedDeg2Rad'
@@ -59,8 +60,10 @@
             # @return {number} Initial bearing.
             # @unit °
             serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                distanceLongitude = @toRad longitudeEnd - longitudeStart,
-                    x, y, initialBearing
+                distanceLongitude = @toRad(longitudeEnd - longitudeStart)
+                x = null
+                y = null
+                initialBearing = null
                 latitudeStart = @toRad latitudeStart
                 latitudeEnd = @toRad latitudeEnd
                 y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
@@ -99,9 +102,9 @@
             # @return {number} Distance
             # @unitSymbol km
             serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                l1 = @toRad(latitudeStart)
-                l2 = @toRad(latitudeEnd)
-                l3 = @toRad((longitudeEnd - longitudeStart))
+                l1 = @toRad(latitudeStart),
+                l2 = @toRad(latitudeEnd),
+                l3 = @toRad((longitudeEnd - longitudeStart)),
                 distance = Math.acos(
                     Math.sin(l1) * Math.sin(l2) +
                     Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
@@ -119,8 +122,8 @@
             # @return {number} Distance
             # @unitSymbol km
             serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
-                y = (latitudeEnd - latitudeStart)
+                x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2),
+                y = (latitudeEnd - latitudeStart),
                 distance = Math.sqrt(x * x + y * y) * RADIUS
             # haversine
             #
@@ -136,8 +139,8 @@
             # @return {number} Distance.
             # @unitSymbol km
             serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                distanceLatitude = this.toRad(latitudeEnd - latitudeStart)
-                distanceLongitude = this.toRad(longitudeEnd - longitudeStart)
+                distanceLatitude = @toRad(latitudeEnd - latitudeStart),
+                distanceLongitude = @toRad(longitudeEnd - longitudeStart),
                 a, c, distance
                 latitudeStart = @toRad latitudeStart
                 latitudeEnd = @toRad latitudeEnd

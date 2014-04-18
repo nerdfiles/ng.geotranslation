@@ -38,14 +38,14 @@
             #
             # Convert to radians.
             serviceInterface.toRad = (angle) ->
-                return angle * cachedDeg2Rad
+                angle * cachedDeg2Rad
             # @util
             #
             # toDeg
             #
             # Convert to degrees.
             serviceInterface.toDeg = (angle) ->
-                return angle * cachedRad2Deg
+                angle * cachedRad2Deg
             # @util
             #
             # bearingTo

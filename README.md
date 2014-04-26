@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/nerdfiles/ng.geotranslation.png?label=ready&title=Ready)](https://waffle.io/nerdfiles/ng.geotranslation)
 # ng.geotranslation
 
 A client-side service presenting various methods for the calculation of 

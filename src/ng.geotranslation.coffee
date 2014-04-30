@@ -2,25 +2,30 @@
 # License: WTFPL
 ((window, angular) ->
     'use strict'
+
     # @ngdoc overview
     # @name ngGeotranslation
     # @description
     #
     # # ngGeotranslation
     angular.module('ngGeotranslation', ['ng'])
+
     # @ngdoc service
     # Mean radius of Earth as constant service (in km).
     .constant('ngGeotranslation.RADIUS', 6371)
+
     # @ngdoc service
     # Cached elementary translation calculation.
     #
     # @test For performance gains.
     .constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180)
+
     # @ngdoc service
     # Cached elementary translation calculation.
     #
     # @test For performance gains.
     .constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI)
+
     # @ngdoc service
     # @name ngGeotranslation.$$geotranslate
     # @description
@@ -32,7 +37,10 @@
         'ngGeotranslation.cachedDeg2Rad'
         'ngGeotranslation.cachedRad2Deg'
         (RADIUS, cachedDeg2Rad, cachedRad2Deg) ->
+
+            # Declare service interface.
             serviceInterface = {}
+
             # @util
             #
             # toRad
@@ -40,6 +48,7 @@
             # Convert to radians.
             serviceInterface.toRad = (angle) ->
                 angle * cachedDeg2Rad
+
             # @util
             #
             # toDeg
@@ -47,6 +56,7 @@
             # Convert to degrees.
             serviceInterface.toDeg = (angle) ->
                 angle * cachedRad2Deg
+
             # @util
             #
             # bearingTo
@@ -73,6 +83,7 @@
                 if initialBearing < 0
                     initialBearing += 360
                 initialBearing
+
             # @util
             #
             # bearingFrom
@@ -93,6 +104,7 @@
                 if finalBearing > 360
                     finalBearing -= 360
                 finalBearing
+
             # spherical
             #
             # @param {float} latitudeStart
@@ -102,13 +114,14 @@
             # @return {number} Distance
             # @unitSymbol km
             serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                l1 = @toRad(latitudeStart),
-                l2 = @toRad(latitudeEnd),
-                l3 = @toRad((longitudeEnd - longitudeStart)),
+                l1 = @toRad(latitudeStart)
+                l2 = @toRad(latitudeEnd)
+                l3 = @toRad((longitudeEnd - longitudeStart))
                 distance = Math.acos(
                     Math.sin(l1) * Math.sin(l2) +
                     Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
                 ) * RADIUS
+
             # equirectangular
             #
             # Equirectangular Projection.
@@ -122,9 +135,10 @@
             # @return {number} Distance
             # @unitSymbol km
             serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2),
-                y = (latitudeEnd - latitudeStart),
+                x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
+                y = (latitudeEnd - latitudeStart)
                 distance = Math.sqrt(x * x + y * y) * RADIUS
+
             # haversine
             #
             # Compute the distance between two points using the haversine formula.
@@ -139,16 +153,19 @@
             # @return {number} Distance.
             # @unitSymbol km
             serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                distanceLatitude = @toRad(latitudeEnd - latitudeStart),
-                distanceLongitude = @toRad(longitudeEnd - longitudeStart),
-                a, c, distance
+                distanceLatitude = @toRad(latitudeEnd - latitudeStart)
+                distanceLongitude = @toRad(longitudeEnd - longitudeStart)
+                a
+                c
+                distance
                 latitudeStart = @toRad latitudeStart
                 latitudeEnd = @toRad latitudeEnd
                 a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
                     Math.sin(distanceLongitude / 2) * Math.cos(latitudeStart) * Math.cos(latitudeEnd)
                 c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
                 distance = RADIUS * c
+
             # Return utilities of service.
             serviceInterface
         ]
-(window, window.angular))
+)(window, window.angular)

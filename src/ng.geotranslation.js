@@ -15,9 +15,6 @@
         serviceInterface.bearingTo = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var distanceLongitude, initialBearing, x, y;
           distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          x = null;
-          y = null;
-          initialBearing = null;
           latitudeStart = this.toRad(latitudeStart);
           latitudeEnd = this.toRad(latitudeEnd);
           y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd);
@@ -54,9 +51,6 @@
           var a, c, distance, distanceLatitude, distanceLongitude;
           distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
           distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          a;
-          c;
-          distance;
           latitudeStart = this.toRad(latitudeStart);
           latitudeEnd = this.toRad(latitudeEnd);
           a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.sin(distanceLongitude / 2) * Math.cos(latitudeStart) * Math.cos(latitudeEnd);

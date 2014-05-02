@@ -71,9 +71,6 @@
             # @unit °
             serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
                 distanceLongitude = @toRad(longitudeEnd - longitudeStart)
-                x = null
-                y = null
-                initialBearing = null
                 latitudeStart = @toRad latitudeStart
                 latitudeEnd = @toRad latitudeEnd
                 y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
@@ -155,9 +152,6 @@
             serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
                 distanceLatitude = @toRad(latitudeEnd - latitudeStart)
                 distanceLongitude = @toRad(longitudeEnd - longitudeStart)
-                a
-                c
-                distance
                 latitudeStart = @toRad latitudeStart
                 latitudeEnd = @toRad latitudeEnd
                 a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +

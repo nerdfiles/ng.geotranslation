@@ -49,11 +49,13 @@
         };
         serviceInterface.haversine = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var a, c, distance, distanceLatitude, distanceLongitude;
-          distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
-          distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
           latitudeStart = this.toRad(latitudeStart);
           latitudeEnd = this.toRad(latitudeEnd);
-          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.sin(distanceLongitude / 2) * Math.cos(latitudeStart) * Math.cos(latitudeEnd);
+          longitudeStart = this.toRad(longitudeStart);
+          longitudeEnd = this.toRad(longitudeEnd);
+          distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
+          distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
+          a = Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2) + Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
           c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return distance = RADIUS * c;
         };

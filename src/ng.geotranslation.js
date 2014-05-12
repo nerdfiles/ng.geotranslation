@@ -6,9 +6,7 @@
     angular.module('ngGeotranslation', ['ng']).constant('ngGeotranslation.RADIUS', 6371).constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180).constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI).service('$$geotranslate', ['ngGeotranslation.RADIUS', 'ngGeotranslation.cachedDeg2Rad', 'ngGeotranslation.cachedRad2Deg', $$geotranslate]);
     return $$geotranslate = function(RADIUS, cachedDeg2Rad, cachedRad2Deg) {
       var serviceInterface;
-      serviceInterface = {
-        __: this
-      };
+      serviceInterface = {};
       serviceInterface.toRad = function(angle) {
         return angle * cachedDeg2Rad;
       };

@@ -112,6 +112,8 @@
       # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
       serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
         bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd)
+        # Converting -ve to +ve (0-360)
+        bearing = ((bearing + 360) % 360).toFixed(1)
         if (bearing >= 0 and bearing < 90)
           return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
         if (bearing >= 90 and bearing < 180)

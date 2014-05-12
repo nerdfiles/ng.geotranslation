@@ -37,6 +37,7 @@
         serviceInterface.direction = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var bearing;
           bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
+          bearing = ((bearing + 360) % 360).toFixed(1);
           if (bearing >= 0 && bearing < 90) {
             return 'N' + (!(bearing === 0) ? bearing + 'E' : '');
           }

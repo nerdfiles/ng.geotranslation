@@ -2,7 +2,7 @@
 #ng.geotranslation
 
 A client-side service presenting various methods for the calculation of 
-distances between ``latLngStart`` and ``latLngEnd``.
+distances between ``latStart`` and ``latEnd, and ``lonStart`` and ``lonEnd``.
 
 ##Use-cases
 

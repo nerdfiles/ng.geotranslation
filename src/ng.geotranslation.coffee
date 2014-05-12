@@ -74,15 +74,20 @@
     # @return {number} Initial bearing.
     # @unit °
     serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
       latitudeStart = serviceInterface.toRad latitudeStart
       latitudeEnd = serviceInterface.toRad latitudeEnd
+
       y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
       x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) -
         Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude)
+
       initialBearing = serviceInterface.toDeg Math.atan2(y, x)
+
       if initialBearing < 0
         initialBearing += 360
+
       initialBearing
 
     # @util
@@ -98,12 +103,16 @@
     # @return {number} Final bearing.
     # @unitSymbol °
     serviceInterface.bearingFrom = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       finalBearing = serviceInterface.bearingTo(
         latitudeStart, longitudeStart,
         latitudeEnd, longitudeEnd)
+
       finalBearing += 180
+
       if finalBearing > 360
         finalBearing -= 360
+
       finalBearing
 
     # direction
@@ -115,9 +124,11 @@
     # @return {string} Angle.
     # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
     serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd)
       # Converting -ve to +ve (0-360)
       bearing = ((bearing + 360) % 360).toFixed(1)
+
       if (bearing >= 0 and bearing < 90)
         return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
       if (bearing >= 90 and bearing < 180)
@@ -137,9 +148,11 @@
     # @return {number} Distance
     # @unitSymbol km
     serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       l1 = serviceInterface.toRad(latitudeStart)
       l2 = serviceInterface.toRad(latitudeEnd)
       l3 = serviceInterface.toRad((longitudeEnd - longitudeStart))
+
       distance = Math.acos(
         Math.sin(l1) * Math.sin(l2) +
         Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
@@ -158,8 +171,10 @@
     # @return {number} Distance
     # @unitSymbol km
     serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
       y = (latitudeEnd - latitudeStart)
+
       distance = Math.sqrt(x * x + y * y) * RADIUS
 
     # haversine
@@ -176,16 +191,20 @@
     # @return {number} Distance.
     # @unitSymbol km
     serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+
       latitudeStart = serviceInterface.toRad latitudeStart
       latitudeEnd = serviceInterface.toRad latitudeEnd
       longitudeStart = serviceInterface.toRad longitudeStart
       longitudeEnd = serviceInterface.toRad longitudeEnd
+
       distanceLatitude = serviceInterface.toRad(latitudeEnd - latitudeStart)
       distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
+
       a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
         Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *
         Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2)
       c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
       distance = RADIUS * c
 
     # Return utilities of service.

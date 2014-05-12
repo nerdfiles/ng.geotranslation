@@ -28,6 +28,7 @@ distances between ``latLngStart`` and ``latLngEnd``.
     .controller([
         '$$geotranslate',
         function ($$geotranslate) {
+            // @note L/l should be floats.
             // Initial and final bearing (which may differ).
             var bearing1 = $$geotranslate.bearingFrom(L1, l1, L2, l2);
             var bearing2 = $$geotranslate.bearingTo(L1, l1, L2, l2);

@@ -42,8 +42,6 @@ distances between ``latLngStart`` and ``latLngEnd``.
 
 ##Dependencies
 
-- [bower-angular](https://github.com/angular/bower-angular)
-
 See ``bower.json``.
 
 ##Review

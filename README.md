@@ -17,8 +17,10 @@ distances between ``latLngStart`` and ``latLngEnd``.
 
 ##Implement
 
-- ``<script>`` include.
-- Use ``ngload`` with AngularAMD.
+- Non-AMD:  
+  ``<script src="vendor/ng.geotranslation/src/ng.geotranslation.js"></script>``
+- AMD:  
+  ``'ngload!ng.geotranslation'`` ([AngularAMD](https://github.com/marcoslin/angularAMD))
 
 ##Usage
 

@@ -34,6 +34,23 @@
           }
           return finalBearing;
         };
+        serviceInterface.computeAngle = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
+          var bearing;
+          bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
+          if (bearing >= 0 && bearing < 90) {
+            return 'N' + (bearing === !0 ? bearing + 'E' : '');
+          }
+          if (bearing >= 90 && bearing < 180) {
+            return (bearing === !90 ? 'S' + (180 - bearing).toFixed(1) : '') + 'E';
+          }
+          if (bearing >= 180 && bearing < 270) {
+            return 'S' + (bearing === !180 ? (bearing - 180).toFixed(1) + 'W' : '');
+          }
+          if (bearing >= 270) {
+            return (bearing !== 270 ? 'N' + (360 - bearing).toFixed(1) : '') + 'W';
+          }
+          return 'N';
+        };
         serviceInterface.spherical = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var distance, l1, l2, l3;
           l1 = this.toRad(latitudeStart);
@@ -55,7 +72,7 @@
           longitudeEnd = this.toRad(longitudeEnd);
           distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
           distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          a = Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2) + Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
+          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
           c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return distance = RADIUS * c;
         };

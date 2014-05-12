@@ -38,13 +38,13 @@
           var bearing;
           bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
           if (bearing >= 0 && bearing < 90) {
-            return 'N' + (bearing === !0 ? bearing + 'E' : '');
+            return 'N' + (!(bearing === 0) ? bearing + 'E' : '');
           }
           if (bearing >= 90 && bearing < 180) {
-            return (bearing === !90 ? 'S' + (180 - bearing).toFixed(1) : '') + 'E';
+            return (!(bearing === 90) ? 'S' + (180 - bearing).toFixed(1) : '') + 'E';
           }
           if (bearing >= 180 && bearing < 270) {
-            return 'S' + (bearing === !180 ? (bearing - 180).toFixed(1) + 'W' : '');
+            return 'S' + (!(bearing === 180) ? (bearing - 180).toFixed(1) + 'W' : '');
           }
           if (bearing >= 270) {
             return (bearing !== 270 ? 'N' + (360 - bearing).toFixed(1) : '') + 'W';

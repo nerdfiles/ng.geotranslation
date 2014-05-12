@@ -115,11 +115,11 @@
       serviceInterface.computeAngle = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
         bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd)
         if (bearing >= 0 and bearing < 90)
-          return 'N' + (if bearing is not 0 then bearing + 'E' else '')
+          return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
         if (bearing >= 90 and bearing < 180)
-          return (if (bearing is not 90) then ('S' + (180 - bearing).toFixed(1)) else '') + 'E'
+          return (if not (bearing is 90) then ('S' + (180 - bearing).toFixed(1)) else '') + 'E'
         if bearing >= 180 and bearing < 270
-          return 'S' + (if (bearing is not 180) then (bearing - 180).toFixed(1) + 'W' else '')
+          return 'S' + (if not (bearing is 180) then (bearing - 180).toFixed(1) + 'W' else '')
         if bearing >= 270
           return (if (bearing != 270) then 'N' + (360 - bearing).toFixed(1) else '') + 'W'
         'N'

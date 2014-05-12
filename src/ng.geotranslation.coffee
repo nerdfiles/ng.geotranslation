@@ -135,12 +135,16 @@
 
       if (bearing >= 0 and bearing < 90)
         return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
+
       if (bearing >= 90 and bearing < 180)
         return (if not (bearing is 90) then ('S' + (180 - bearing).toFixed(1)) else '') + 'E'
+
       if bearing >= 180 and bearing < 270
         return 'S' + (if not (bearing is 180) then (bearing - 180).toFixed(1) + 'W' else '')
+
       if bearing >= 270
         return (if (bearing != 270) then 'N' + (360 - bearing).toFixed(1) else '') + 'W'
+
       'N'
 
     # spherical

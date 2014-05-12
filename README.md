@@ -48,7 +48,8 @@ See ``bower.json``.
 
 ##Review
 
-1. http://www.yourhomenow.com/house/haversine.html (@TODO)
+1. http://www.yourhomenow.com/house/haversine.html  
+   Expand input types.
 
 ##License
 

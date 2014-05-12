@@ -11,14 +11,14 @@ distances between ``latLngStart`` and ``latLngEnd``.
 3. Interest in unloading server time with calculations distributed across clients,  
    and cached on clients. (The client should always cache appropriately.)
 
-##Get
+##Install
 
     $ bower install ng.geotranslation
 
-##Install
+##Implement
 
-- ``<script>`` include?
-- AMD?
+- ``<script>`` include.
+- Use ``ngload`` with AngularAMD.
 
 ##Usage
 

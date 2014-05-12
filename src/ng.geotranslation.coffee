@@ -7,6 +7,9 @@
   # @name ngGeotranslation
   # @description
   #
+  # Provide latitudes and longitudes of starting points and destination 
+  # points as floats to get direction, distance, bearing.
+  #
   # # ngGeotranslation
   angular.module('ngGeotranslation', ['ng'])
 

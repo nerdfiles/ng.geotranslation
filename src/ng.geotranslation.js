@@ -14,12 +14,12 @@
         };
         serviceInterface.bearingTo = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var distanceLongitude, initialBearing, x, y;
-          distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          latitudeStart = this.toRad(latitudeStart);
-          latitudeEnd = this.toRad(latitudeEnd);
+          distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart);
+          latitudeStart = serviceInterface.toRad(latitudeStart);
+          latitudeEnd = serviceInterface.toRad(latitudeEnd);
           y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd);
           x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) - Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude);
-          initialBearing = this.toDeg(Math.atan2(y, x));
+          initialBearing = serviceInterface.toDeg(Math.atan2(y, x));
           if (initialBearing < 0) {
             initialBearing += 360;
           }
@@ -27,7 +27,7 @@
         };
         serviceInterface.bearingFrom = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var finalBearing;
-          finalBearing = this.bearingTo(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
+          finalBearing = serviceInterface.bearingTo(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
           finalBearing += 180;
           if (finalBearing > 360) {
             finalBearing -= 360;
@@ -53,9 +53,9 @@
         };
         serviceInterface.spherical = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var distance, l1, l2, l3;
-          l1 = this.toRad(latitudeStart);
-          l2 = this.toRad(latitudeEnd);
-          l3 = this.toRad(longitudeEnd - longitudeStart);
+          l1 = serviceInterface.toRad(latitudeStart);
+          l2 = serviceInterface.toRad(latitudeEnd);
+          l3 = serviceInterface.toRad(longitudeEnd - longitudeStart);
           return distance = Math.acos(Math.sin(l1) * Math.sin(l2) + Math.cos(l1) * Math.cos(l2) * Math.cos(l3)) * RADIUS;
         };
         serviceInterface.equirectangular = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
@@ -66,12 +66,12 @@
         };
         serviceInterface.haversine = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var a, c, distance, distanceLatitude, distanceLongitude;
-          latitudeStart = this.toRad(latitudeStart);
-          latitudeEnd = this.toRad(latitudeEnd);
-          longitudeStart = this.toRad(longitudeStart);
-          longitudeEnd = this.toRad(longitudeEnd);
-          distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
-          distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
+          latitudeStart = serviceInterface.toRad(latitudeStart);
+          latitudeEnd = serviceInterface.toRad(latitudeEnd);
+          longitudeStart = serviceInterface.toRad(longitudeStart);
+          longitudeEnd = serviceInterface.toRad(longitudeEnd);
+          distanceLatitude = serviceInterface.toRad(latitudeEnd - latitudeStart);
+          distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart);
           a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
           c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return distance = RADIUS * c;

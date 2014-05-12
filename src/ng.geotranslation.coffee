@@ -70,13 +70,13 @@
       # @return {number} Initial bearing.
       # @unit °
       serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-        distanceLongitude = @toRad(longitudeEnd - longitudeStart)
-        latitudeStart = @toRad latitudeStart
-        latitudeEnd = @toRad latitudeEnd
+        distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
+        latitudeStart = serviceInterface.toRad latitudeStart
+        latitudeEnd = serviceInterface.toRad latitudeEnd
         y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
         x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) -
           Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude)
-        initialBearing = @toDeg Math.atan2(y, x)
+        initialBearing = serviceInterface.toDeg Math.atan2(y, x)
         if initialBearing < 0
           initialBearing += 360
         initialBearing
@@ -94,7 +94,7 @@
       # @return {number} Final bearing.
       # @unitSymbol °
       serviceInterface.bearingFrom = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-        finalBearing = @bearingTo(
+        finalBearing = serviceInterface.bearingTo(
           latitudeStart, longitudeStart,
           latitudeEnd, longitudeEnd)
         finalBearing += 180
@@ -133,9 +133,9 @@
       # @return {number} Distance
       # @unitSymbol km
       serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-        l1 = @toRad(latitudeStart)
-        l2 = @toRad(latitudeEnd)
-        l3 = @toRad((longitudeEnd - longitudeStart))
+        l1 = serviceInterface.toRad(latitudeStart)
+        l2 = serviceInterface.toRad(latitudeEnd)
+        l3 = serviceInterface.toRad((longitudeEnd - longitudeStart))
         distance = Math.acos(
           Math.sin(l1) * Math.sin(l2) +
           Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
@@ -172,12 +172,12 @@
       # @return {number} Distance.
       # @unitSymbol km
       serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-        latitudeStart = @toRad latitudeStart
-        latitudeEnd = @toRad latitudeEnd
-        longitudeStart = @toRad longitudeStart
-        longitudeEnd = @toRad longitudeEnd
-        distanceLatitude = @toRad(latitudeEnd - latitudeStart)
-        distanceLongitude = @toRad(longitudeEnd - longitudeStart)
+        latitudeStart = serviceInterface.toRad latitudeStart
+        latitudeEnd = serviceInterface.toRad latitudeEnd
+        longitudeStart = serviceInterface.toRad longitudeStart
+        longitudeEnd = serviceInterface.toRad longitudeEnd
+        distanceLatitude = serviceInterface.toRad(latitudeEnd - latitudeStart)
+        distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
         a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
           Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *
           Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2)

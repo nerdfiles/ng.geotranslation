@@ -102,9 +102,7 @@
           finalBearing -= 360
         finalBearing
 
-      # @util
-      #
-      # computeAngle
+      # direction
       #
       # @param {float} latitudeStart
       # @param {float} longitudeStart
@@ -112,7 +110,7 @@
       # @param {float} longitudeEnd
       # @return {string} Angle.
       # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
-      serviceInterface.computeAngle = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+      serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
         bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd)
         if (bearing >= 0 and bearing < 90)
           return 'N' + (if not (bearing is 0) then bearing + 'E' else '')

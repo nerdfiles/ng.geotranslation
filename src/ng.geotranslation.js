@@ -34,7 +34,7 @@
           }
           return finalBearing;
         };
-        serviceInterface.computeAngle = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
+        serviceInterface.direction = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var bearing;
           bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd);
           if (bearing >= 0 && bearing < 90) {

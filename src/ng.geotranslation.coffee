@@ -75,7 +75,7 @@
     # @unit °
     serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
+      distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
       latitudeStart = serviceInterface.toRad latitudeStart
       latitudeEnd = serviceInterface.toRad latitudeEnd
 
@@ -106,7 +106,8 @@
 
       finalBearing = serviceInterface.bearingTo(
         latitudeStart, longitudeStart,
-        latitudeEnd, longitudeEnd)
+        latitudeEnd, longitudeEnd
+      )
 
       finalBearing += 180
 
@@ -125,7 +126,7 @@
     # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
     serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      bearing = serviceInterface.bearingFrom(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd)
+      bearing = serviceInterface.bearingFrom latitudeStart, longitudeStart, latitudeEnd, longitudeEnd
       # Converting -ve to +ve (0-360)
       bearing = ((bearing + 360) % 360).toFixed(1)
 
@@ -149,9 +150,9 @@
     # @unitSymbol km
     serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      l1 = serviceInterface.toRad(latitudeStart)
-      l2 = serviceInterface.toRad(latitudeEnd)
-      l3 = serviceInterface.toRad((longitudeEnd - longitudeStart))
+      l1 = serviceInterface.toRad latitudeStart
+      l2 = serviceInterface.toRad latitudeEnd
+      l3 = serviceInterface.toRad (longitudeEnd - longitudeStart)
 
       distance = Math.acos(
         Math.sin(l1) * Math.sin(l2) +
@@ -173,7 +174,7 @@
     serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
       x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
-      y = (latitudeEnd - latitudeStart)
+      y = latitudeEnd - latitudeStart
 
       distance = Math.sqrt(x * x + y * y) * RADIUS
 
@@ -197,8 +198,8 @@
       longitudeStart = serviceInterface.toRad longitudeStart
       longitudeEnd = serviceInterface.toRad longitudeEnd
 
-      distanceLatitude = serviceInterface.toRad(latitudeEnd - latitudeStart)
-      distanceLongitude = serviceInterface.toRad(longitudeEnd - longitudeStart)
+      distanceLatitude = serviceInterface.toRad latitudeEnd - latitudeStart
+      distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
 
       a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
         Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *

@@ -1,220 +1,218 @@
 # @license ng.geotranslation.js
 # License: WTFPL
-((window, angular) ->
-  'use strict'
+'use strict'
 
-  # @ngdoc overview
-  # @name ngGeotranslation
-  # @description
+# @ngdoc overview
+# @name ngGeotranslation
+# @description
+#
+# Provide latitudes and longitudes of starting points and destination 
+# points as floats to get direction, distance, bearing.
+#
+# # ngGeotranslation
+angular.module('ngGeotranslation', [])
+
+# @ngdoc service
+# Mean radius of Earth as constant service (in km).
+.constant('ngGeotranslation.RADIUS', 6371)
+
+# @ngdoc service
+# Cached elementary translation calculation.
+#
+# @test For performance gains.
+.constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180)
+
+# @ngdoc service
+# Cached elementary translation calculation.
+#
+# @test For performance gains.
+.constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI)
+
+# @ngdoc service
+# @name ngGeotranslation.$$geotranslate
+# @description
+#
+# The `$$geotranslate` allows developers to calculate distance between two
+# points on Earth.
+.service '$$geotranslate', [
+  'ngGeotranslation.RADIUS'
+  'ngGeotranslation.cachedDeg2Rad'
+  'ngGeotranslation.cachedRad2Deg'
+  $$geotranslate
+]
+
+# Implement service.
+$$geotranslate = (RADIUS, cachedDeg2Rad, cachedRad2Deg) ->
+
+  # Declare service interface.
+  serviceInterface = {}
+
+  # @util
   #
-  # Provide latitudes and longitudes of starting points and destination 
-  # points as floats to get direction, distance, bearing.
+  # toRad
   #
-  # # ngGeotranslation
-  angular.module('ngGeotranslation', ['ng'])
+  # Convert to radians.
+  serviceInterface.toRad = (angle) ->
+    angle * cachedDeg2Rad
 
-  # @ngdoc service
-  # Mean radius of Earth as constant service (in km).
-  .constant('ngGeotranslation.RADIUS', 6371)
-
-  # @ngdoc service
-  # Cached elementary translation calculation.
+  # @util
   #
-  # @test For performance gains.
-  .constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180)
-
-  # @ngdoc service
-  # Cached elementary translation calculation.
+  # toDeg
   #
-  # @test For performance gains.
-  .constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI)
+  # Convert to degrees.
+  serviceInterface.toDeg = (angle) ->
+    angle * cachedRad2Deg
 
-  # @ngdoc service
-  # @name ngGeotranslation.$$geotranslate
-  # @description
+  # @util
   #
-  # The `$$geotranslate` allows developers to calculate distance between two
-  # points on Earth.
-  .service '$$geotranslate', [
-    'ngGeotranslation.RADIUS'
-    'ngGeotranslation.cachedDeg2Rad'
-    'ngGeotranslation.cachedRad2Deg'
-    $$geotranslate
-  ]
+  # bearingTo
+  #
+  # Compute the initial bearing when going from a point to another.
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {number} Initial bearing.
+  # @unit °
+  serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-  # Implement service.
-  $$geotranslate = (RADIUS, cachedDeg2Rad, cachedRad2Deg) ->
+    distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
+    latitudeStart = serviceInterface.toRad latitudeStart
+    latitudeEnd = serviceInterface.toRad latitudeEnd
 
-    # Declare service interface.
-    serviceInterface = {}
+    y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
+    x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) -
+      Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude)
 
-    # @util
-    #
-    # toRad
-    #
-    # Convert to radians.
-    serviceInterface.toRad = (angle) ->
-      angle * cachedDeg2Rad
+    initialBearing = serviceInterface.toDeg Math.atan2(y, x)
 
-    # @util
-    #
-    # toDeg
-    #
-    # Convert to degrees.
-    serviceInterface.toDeg = (angle) ->
-      angle * cachedRad2Deg
+    if initialBearing < 0
+      initialBearing += 360
 
-    # @util
-    #
-    # bearingTo
-    #
-    # Compute the initial bearing when going from a point to another.
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {number} Initial bearing.
-    # @unit °
-    serviceInterface.bearingTo = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+    initialBearing
 
-      distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
-      latitudeStart = serviceInterface.toRad latitudeStart
-      latitudeEnd = serviceInterface.toRad latitudeEnd
+  # @util
+  #
+  # bearingFrom
+  #
+  # Compute the final bearing when going from a point to another.
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {number} Final bearing.
+  # @unitSymbol °
+  serviceInterface.bearingFrom = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      y = Math.sin(distanceLongitude) * Math.cos(latitudeEnd)
-      x = Math.cos(latitudeStart) * Math.sin(latitudeEnd) -
-        Math.sin(latitudeStart) * Math.cos(latitudeEnd) * Math.cos(distanceLongitude)
+    finalBearing = serviceInterface.bearingTo(
+      latitudeStart, longitudeStart,
+      latitudeEnd, longitudeEnd
+    )
 
-      initialBearing = serviceInterface.toDeg Math.atan2(y, x)
+    finalBearing += 180
 
-      if initialBearing < 0
-        initialBearing += 360
+    if finalBearing > 360
+      finalBearing -= 360
 
-      initialBearing
+    finalBearing
 
-    # @util
-    #
-    # bearingFrom
-    #
-    # Compute the final bearing when going from a point to another.
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {number} Final bearing.
-    # @unitSymbol °
-    serviceInterface.bearingFrom = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+  # direction
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {string} Angle.
+  # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
+  serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      finalBearing = serviceInterface.bearingTo(
-        latitudeStart, longitudeStart,
-        latitudeEnd, longitudeEnd
-      )
+    bearing = serviceInterface.bearingFrom latitudeStart, longitudeStart, latitudeEnd, longitudeEnd
+    # Converting -ve to +ve (0-360)
+    bearing = ((bearing + 360) % 360).toFixed(1)
 
-      finalBearing += 180
+    if (bearing >= 0 and bearing < 90)
+      return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
 
-      if finalBearing > 360
-        finalBearing -= 360
+    if (bearing >= 90 and bearing < 180)
+      return (if not (bearing is 90) then ('S' + (180 - bearing).toFixed(1)) else '') + 'E'
 
-      finalBearing
+    if bearing >= 180 and bearing < 270
+      return 'S' + (if not (bearing is 180) then (bearing - 180).toFixed(1) + 'W' else '')
 
-    # direction
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {string} Angle.
-    # @see http://www.mathsteacher.com.au/year7/ch08_angles/07_bear/bearing.htm
-    serviceInterface.direction = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+    if bearing >= 270
+      return (if (bearing != 270) then 'N' + (360 - bearing).toFixed(1) else '') + 'W'
 
-      bearing = serviceInterface.bearingFrom latitudeStart, longitudeStart, latitudeEnd, longitudeEnd
-      # Converting -ve to +ve (0-360)
-      bearing = ((bearing + 360) % 360).toFixed(1)
+    'N'
 
-      if (bearing >= 0 and bearing < 90)
-        return 'N' + (if not (bearing is 0) then bearing + 'E' else '')
+  # spherical
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {number} Distance
+  # @unitSymbol km
+  serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      if (bearing >= 90 and bearing < 180)
-        return (if not (bearing is 90) then ('S' + (180 - bearing).toFixed(1)) else '') + 'E'
+    l1 = serviceInterface.toRad latitudeStart
+    l2 = serviceInterface.toRad latitudeEnd
+    l3 = serviceInterface.toRad (longitudeEnd - longitudeStart)
 
-      if bearing >= 180 and bearing < 270
-        return 'S' + (if not (bearing is 180) then (bearing - 180).toFixed(1) + 'W' else '')
+    distance = Math.acos(
+      Math.sin(l1) * Math.sin(l2) +
+      Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
+    ) * RADIUS
 
-      if bearing >= 270
-        return (if (bearing != 270) then 'N' + (360 - bearing).toFixed(1) else '') + 'W'
+  # equirectangular
+  #
+  # Equirectangular Projection.
+  #
+  # @see http://www.movable-type.co.uk/scripts/latlong.html
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {number} Distance
+  # @unitSymbol km
+  serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      'N'
+    x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
+    y = latitudeEnd - latitudeStart
 
-    # spherical
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {number} Distance
-    # @unitSymbol km
-    serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+    distance = Math.sqrt(x * x + y * y) * RADIUS
 
-      l1 = serviceInterface.toRad latitudeStart
-      l2 = serviceInterface.toRad latitudeEnd
-      l3 = serviceInterface.toRad (longitudeEnd - longitudeStart)
+  # haversine
+  #
+  # Compute the distance between two points using the haversine formula.
+  #
+  # @perf http://jsperf.com/haversine-salvador/8
+  # @see http://www.movable-type.co.uk/scripts/latlong.html
+  #
+  # @param {float} latitudeStart
+  # @param {float} longitudeStart
+  # @param {float} latitudeEnd
+  # @param {float} longitudeEnd
+  # @return {number} Distance.
+  # @unitSymbol km
+  serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
 
-      distance = Math.acos(
-        Math.sin(l1) * Math.sin(l2) +
-        Math.cos(l1) * Math.cos(l2) * Math.cos(l3)
-      ) * RADIUS
+    latitudeStart = serviceInterface.toRad latitudeStart
+    latitudeEnd = serviceInterface.toRad latitudeEnd
+    longitudeStart = serviceInterface.toRad longitudeStart
+    longitudeEnd = serviceInterface.toRad longitudeEnd
 
-    # equirectangular
-    #
-    # Equirectangular Projection.
-    #
-    # @see http://www.movable-type.co.uk/scripts/latlong.html
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {number} Distance
-    # @unitSymbol km
-    serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
+    distanceLatitude = serviceInterface.toRad latitudeEnd - latitudeStart
+    distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
 
-      x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
-      y = latitudeEnd - latitudeStart
+    a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
+      Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *
+      Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2)
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-      distance = Math.sqrt(x * x + y * y) * RADIUS
+    distance = RADIUS * c
 
-    # haversine
-    #
-    # Compute the distance between two points using the haversine formula.
-    #
-    # @perf http://jsperf.com/haversine-salvador/8
-    # @see http://www.movable-type.co.uk/scripts/latlong.html
-    #
-    # @param {float} latitudeStart
-    # @param {float} longitudeStart
-    # @param {float} latitudeEnd
-    # @param {float} longitudeEnd
-    # @return {number} Distance.
-    # @unitSymbol km
-    serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-
-      latitudeStart = serviceInterface.toRad latitudeStart
-      latitudeEnd = serviceInterface.toRad latitudeEnd
-      longitudeStart = serviceInterface.toRad longitudeStart
-      longitudeEnd = serviceInterface.toRad longitudeEnd
-
-      distanceLatitude = serviceInterface.toRad latitudeEnd - latitudeStart
-      distanceLongitude = serviceInterface.toRad longitudeEnd - longitudeStart
-
-      a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
-        Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *
-        Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2)
-      c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-      distance = RADIUS * c
-
-    # Return utilities of service.
-    serviceInterface
-)(window, window.angular)
+  # Return utilities of service.
+  serviceInterface

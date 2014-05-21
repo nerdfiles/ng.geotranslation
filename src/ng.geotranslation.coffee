@@ -10,23 +10,23 @@
 # points as floats to get direction, distance, bearing.
 #
 # # ngGeotranslation
-angular.module('ngGeotranslation', [])
+ngGeotranslation = angular.module('ngGeotranslation', [])
 
 # @ngdoc service
 # Mean radius of Earth as constant service (in km).
-.constant('ngGeotranslation.RADIUS', 6371)
+ngGeotranslation.constant('RADIUS', 6371)
 
 # @ngdoc service
 # Cached elementary translation calculation.
 #
 # @test For performance gains.
-.constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180)
+ngGeotranslation.constant('cachedDeg2Rad', Math.PI / 180)
 
 # @ngdoc service
 # Cached elementary translation calculation.
 #
 # @test For performance gains.
-.constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI)
+ngGeotranslation.constant('cachedRad2Deg', 180 / Math.PI)
 
 # @ngdoc service
 # @name ngGeotranslation.$$geotranslate
@@ -34,10 +34,10 @@ angular.module('ngGeotranslation', [])
 #
 # The `$$geotranslate` allows developers to calculate distance between two
 # points on Earth.
-.service '$$geotranslate', [
-  'ngGeotranslation.RADIUS'
-  'ngGeotranslation.cachedDeg2Rad'
-  'ngGeotranslation.cachedRad2Deg'
+ngGeotranslation.service '$$geotranslate', [
+  'RADIUS'
+  'cachedDeg2Rad'
+  'cachedRad2Deg'
   $$geotranslate
 ]
 

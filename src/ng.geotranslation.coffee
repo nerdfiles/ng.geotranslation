@@ -39,7 +39,7 @@
         (RADIUS, cachedDeg2Rad, cachedRad2Deg) ->
 
             # Declare service interface.
-            serviceInterface = {}
+            serviceInterface = @
 
             # @util
             #
@@ -150,14 +150,12 @@
             # @return {number} Distance.
             # @unitSymbol km
             serviceInterface.haversine = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                latitudeStart = @toRad latitudeStart
-                latitudeEnd = @toRad latitudeEnd
-                longitudeStart = @toRad longitudeStart
-                longitudeEnd = @toRad longitudeEnd
+                latitudeStartRad = @toRad latitudeStart
+                latitudeEndRad = @toRad latitudeEnd
                 distanceLatitude = @toRad(latitudeEnd - latitudeStart)
                 distanceLongitude = @toRad(longitudeEnd - longitudeStart)
                 a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
-                    Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) *
+                    Math.cos(latitudeStartRad) * Math.cos(latitudeEndRad / 2) *
                     Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2)
                 c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
                 distance = RADIUS * c

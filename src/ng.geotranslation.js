@@ -5,7 +5,7 @@
     return angular.module('ngGeotranslation', ['ng']).constant('ngGeotranslation.RADIUS', 6371).constant('ngGeotranslation.cachedDeg2Rad', Math.PI / 180).constant('ngGeotranslation.cachedRad2Deg', 180 / Math.PI).service('$$geotranslate', [
       'ngGeotranslation.RADIUS', 'ngGeotranslation.cachedDeg2Rad', 'ngGeotranslation.cachedRad2Deg', function(RADIUS, cachedDeg2Rad, cachedRad2Deg) {
         var serviceInterface;
-        serviceInterface = {};
+        serviceInterface = this;
         serviceInterface.toRad = function(angle) {
           return angle * cachedDeg2Rad;
         };
@@ -48,14 +48,12 @@
           return distance = Math.sqrt(x * x + y * y) * RADIUS;
         };
         serviceInterface.haversine = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
-          var a, c, distance, distanceLatitude, distanceLongitude;
-          latitudeStart = this.toRad(latitudeStart);
-          latitudeEnd = this.toRad(latitudeEnd);
-          longitudeStart = this.toRad(longitudeStart);
-          longitudeEnd = this.toRad(longitudeEnd);
+          var a, c, distance, distanceLatitude, distanceLongitude, latitudeEndRad, latitudeStartRad;
+          latitudeStartRad = this.toRad(latitudeStart);
+          latitudeEndRad = this.toRad(latitudeEnd);
           distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
           distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStart) * Math.cos(latitudeEnd / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
+          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStartRad) * Math.cos(latitudeEndRad / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
           c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return distance = RADIUS * c;
         };

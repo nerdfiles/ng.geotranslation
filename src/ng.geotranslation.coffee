@@ -11,7 +11,7 @@
   # points as floats to get direction, distance, bearing.
   #
   # # ngGeotranslation
-  angular.module('ngGeotranslation', ['ng'])
+  angular.module('ngGeotranslation', ['angular'])
 
   # @ngdoc service
   # Mean radius of Earth as constant service (in km).

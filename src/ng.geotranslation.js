@@ -53,7 +53,7 @@
           latitudeEndRad = this.toRad(latitudeEnd);
           distanceLatitude = this.toRad(latitudeEnd - latitudeStart);
           distanceLongitude = this.toRad(longitudeEnd - longitudeStart);
-          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStartRad) * Math.cos(latitudeEndRad / 2) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
+          a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) + Math.cos(latitudeStartRad) * Math.cos(latitudeEndRad) * Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
           c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return distance = RADIUS * c;
         };

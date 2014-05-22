@@ -111,9 +111,9 @@
             # @return {number} Distance
             # @unitSymbol km
             serviceInterface.spherical = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                l1 = @toRad(latitudeStart)
-                l2 = @toRad(latitudeEnd)
-                l3 = @toRad((longitudeEnd - longitudeStart))
+                l1 = @toRad latitudeStart
+                l2 = @toRad latitudeEnd
+                l3 = @toRad(longitudeEnd - longitudeStart)
                 distance = Math.acos(
                     Math.sin(l1) * Math.sin(l2) +
                     Math.cos(l1) * Math.cos(l2) * Math.cos(l3)

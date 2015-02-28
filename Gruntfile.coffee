@@ -56,10 +56,18 @@ module.exports = (grunt)->
         tasks: ['coffeelint:gruntfile']
       lib:
         files: ['src/lib/**/*.coffee']
-        tasks: ['coffeelint:lib', 'coffee:lib', 'simplemocha']
+        tasks: [
+          #'coffeelint:lib'
+          'coffee:lib'
+          #'simplemocha'
+        ]
       test:
         files: ['src/test/**/*.coffee']
-        tasks: ['coffeelint:test', 'coffee:test', 'simplemocha']
+        tasks: [
+          #'coffeelint:test'
+          #'coffee:test'
+          #'simplemocha'
+        ]
     clean: ['out/']
 
   grunt.event.on 'watch', (action, files, target)->

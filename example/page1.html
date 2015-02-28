@@ -10,10 +10,15 @@
       class="this--page"
     >
       <dl>
-        <dt>Greenwich to South Pole</dt>
+        <dt>Greenwich to Manchester (haversine)</dt>
         <dd>
-          {{distance.toPrecision(2)}} miles
+          {{distanceHaversine.toPrecision(2)}} miles
         </dd>
+        <dt>Greenwich to Manchester (equirectilinear)</dt>
+        <dd>{{distanceEquirectileinear}}</dd>
+
+        <dt>Greenwich to Manchester (spherical)
+        <dd>{{distanceInKmSpherical.toPrecision(2)}}</dd>
       </dl>
     </div>
 </body>
@@ -40,8 +45,15 @@
         l1 = $scope.greenwich.longitude;
         L2 = $scope.manchester.latitude;
         l2 = $scope.manchester.longitude;
-        distanceInKm = $$geotranslate.haversine(L1, l1, L2, l2);
-        $scope.distance = (distanceInKm * 1000) / 1609;
+
+        distanceInKmHaversine = $$geotranslate.haversine(L1, l1, L2, l2);
+        $scope.distanceHaversine = (distanceInKmHaversine * 1000) / 1609;
+
+        distanceInKmEquirectilinear = $$geotranslate.equirectangular(L1, l1, L2, l2);
+        $scope.distanceEquirectileinear = (distanceInKmEquirectilinear * 1000) / 1609
+
+        distanceInKmSpherical = $$geotranslate.spherical(L1, l1, L2, l2);
+        $scope.distanceInKmSpherical = (distanceInKmSpherical * 1000) / 1609
       }
   ]);
 </script>

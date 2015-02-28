@@ -72,7 +72,7 @@
         };
         serviceInterface.equirectangular = function(latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) {
           var distance, x, y;
-          x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2);
+          x = this.toRad(longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2);
           y = latitudeEnd - latitudeStart;
           return distance = Math.sqrt(x * x + y * y) * radius;
         };

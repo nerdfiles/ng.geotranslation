@@ -183,7 +183,7 @@
             # @param {float} longitudeEnd
             # @return {float} Distance in kilometers (km).
             serviceInterface.equirectangular = (latitudeStart, longitudeStart, latitudeEnd, longitudeEnd) ->
-                x = (longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
+                x = @toRad(longitudeEnd - longitudeStart) * Math.cos((latitudeStart + latitudeEnd) / 2)
                 y = (latitudeEnd - latitudeStart)
                 distance = Math.sqrt(x * x + y * y) * radius
 

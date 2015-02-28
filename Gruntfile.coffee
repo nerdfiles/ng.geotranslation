@@ -78,7 +78,7 @@ module.exports = (grunt)->
 
   # tasks.
   grunt.registerTask 'compile', [
-    'coffeelint'
+    #'coffeelint'
     'coffee'
   ]
 

@@ -1,12 +1,49 @@
 <!doctype html>
-<html>
+<html ng-app="ngGeotranslationTest">
 <head>
-<script src="angular.js"></script>
-<script src="ng.geotranslation.js"></script>
+<script src="../vendor/angular/angular.js"></script>
+<script src="../out/lib/ng-geotranslation.js"></script>
 </head>
 <body>
-    <div class="this--page">
-        {{addressObjectWithLatLng}}
+    <div
+      ng-controller="MainCtrl"
+      class="this--page"
+    >
+      <dl>
+        <dt>Greenwich to South Pole</dt>
+        <dd>
+          {{distance.toPrecision(2)}} miles
+        </dd>
+      </dl>
     </div>
 </body>
+<script>
+  var deps = [
+    'ngGeotranslation'
+  ];
+  var ngGeotranslationTest = angular.module('ngGeotranslationTest', deps);
+
+  ngGeotranslationTest.controller('MainCtrl', [
+      '$scope',
+      '$http',
+      '$$geotranslate',
+      function MainCtrl ($scope, $http, $$geotranslate) {
+        $scope.greenwich = {
+          latitude: 51.47879,
+          longitude: -0.010677
+        };
+        $scope.manchester = {
+          latitude: 53.4807366,
+          longitude: -2.316447
+        };
+        L1 = $scope.greenwich.latitude;
+        l1 = $scope.greenwich.longitude;
+        L2 = $scope.manchester.latitude;
+        l2 = $scope.manchester.longitude;
+        distanceInKm = $$geotranslate.haversine(L1, l1, L2, l2);
+        $scope.distance = (distanceInKm * 1000) / 1609;
+      }
+  ]);
+</script>
 </html>
+

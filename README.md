@@ -15,12 +15,11 @@ geospatial metadata between points and sanitization of input/outputs.
 
     $ bower install ng.geotranslation
 
-##Implement
+## Development
 
-- Non-AMD:  
-  ``<script src="vendor/ng.geotranslation/src/ng.geotranslation.js"></script>``
-- AMD:  
-  ``'ngload!ng.geotranslation'`` ([AngularAMD](https://github.com/marcoslin/angularAMD))
+    $ grunt compile
+    $ python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'
+    $ open ./example/page1.html
 
 ##Usage
 
@@ -37,8 +36,8 @@ geospatial metadata between points and sanitization of input/outputs.
             var direction = $$geotranslate.direction(L1, l1, L2, l2);
 
             // Get distance.
-            var distance1 = $$geotranslate.equirectangular(L1, l1, L2, l2);
-            var distance2 = $$geotranslate.spherical(L1, l1, L2, l2);
+            var distance1 = $$geotranslate.equirectangular(L1, l1, L2, l2); // @needs fix
+            var distance2 = $$geotranslate.spherical(L1, l1, L2, l2); // @needs fix
             var distance3 = $$geotranslate.haversine(L1, l1, L2, l2);
         }
     ]);

@@ -23,19 +23,30 @@ module.exports = (grunt)->
           level: 'error'
         max_line_length:
           level: 'warn'
+
     coffee:
+
       lib:
         expand: true
         cwd: 'src/lib/'
-        src: ['**/*.coffee']
+        src: ['*.coffee']
         dest: 'out/lib/'
         ext: '.js'
+
+      dist:
+        expand: true
+        cwd: 'src/lib/'
+        src: ['*.coffee']
+        dest: 'dist/'
+        ext: '.js'
+
       test:
         expand: true
         cwd: 'src/test/'
-        src: ['**/*.coffee']
+        src: ['*.coffee']
         dest: 'out/test/'
         ext: '.js'
+
     simplemocha:
       all:
         src: [
